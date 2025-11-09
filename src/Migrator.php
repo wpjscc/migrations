@@ -219,7 +219,7 @@ final class Migrator
         return $this->dbal->database($database)->table($this->config->getTable());
     }
 
-    protected function checkMigrationTableStructure(Database $db): bool
+    protected function checkMigrationTableStructure(DatabaseInterface $db): bool
     {
         $table = $db->table($this->config->getTable());
 
@@ -312,7 +312,7 @@ final class Migrator
      */
     private function getDatabases(): iterable
     {
-        if ($this->dbal instanceof DatabaseManager) {
+        if ($this->dbal instanceof DatabaseProviderInterface) {
             return \array_filter(
                 $this->dbal->getDatabases(),
                 static fn(DatabaseInterface $db): bool => !$db->getDriver()->isReadonly(),
